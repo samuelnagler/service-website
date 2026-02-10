@@ -345,3 +345,81 @@ section h2 {
     font-size: 1rem;
   }
 }
+
+/*
+ * Zusätzliche Anpassungen für Smartphones inspiriert von Apples mobilem Webdesign.
+ * Bei einer Breite von 640px oder kleiner wird ein fast ganzseitiges Menü angezeigt
+ * und Texte, Abstände sowie Grids werden für kleine Displays optimiert.
+ */
+@media (max-width: 640px) {
+  /* Vollbild-Menü: die Navigationsliste belegt den ganzen Bildschirm und wird
+     durch Überschieben ein- bzw. ausgeblendet. Apple verwendet eine
+     überlagernde Menüfläche mit klaren, großzügigen Abständen. */
+  .nav-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(245, 245, 247, 0.95);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    /* Standardmäßig nach oben ausblenden */
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 2rem;
+  }
+  .nav-list.active {
+    transform: translateY(0);
+  }
+  /* Größere Schrift und dickere Gewichte für Menüpunkte */
+  .nav-list a {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  /* Menütoggle vergrößern für bessere Treffbarkeit */
+  .menu-toggle {
+    font-size: 2.5rem;
+  }
+
+  /* Hero-Bereich: mehr Platz nach oben und reduzierter Mindesthöhenwert,
+     um die wichtigsten Informationen sofort sichtbar zu machen */
+  .hero {
+    padding-top: 5rem;
+    min-height: 80vh;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  /* Anpassungen der Dienstleistungs-Karten: weniger Abstand und größere Texte */
+  .service-cards {
+    gap: 1rem;
+  }
+  .card h3 {
+    font-size: 1.3rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+  }
+
+  /* Zahlungsraster: zwei Spalten für kompakte Darstellung auf kleinen Bildschirmen */
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .payment-item span {
+    font-size: 1rem;
+  }
+
+  /* Leichte Reduzierung der vertikalen Abstände bei allen Sektionen */
+  section {
+    padding: 5rem 1rem 3rem;
+  }
+}
