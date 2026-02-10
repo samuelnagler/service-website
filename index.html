@@ -11,6 +11,8 @@
   <header class="header">
     <div class="container">
       <div class="logo">AI&nbsp;Services</div>
+      <!-- mobile menu toggle -->
+      <button class="menu-toggle" aria-label="Menü öffnen">&#9776;</button>
       <nav>
         <ul class="nav-list">
           <li><a href="#home">Start</a></li>
@@ -130,5 +132,15 @@
   <footer class="footer">
     <p>© 2026 AI Services. Alle Rechte vorbehalten.</p>
   </footer>
+
+  <!-- Einfaches Skript für das mobile Menü -->
+  <script>
+    // Menü ein‑ und ausblenden auf kleinen Bildschirmen
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('.nav-list');
+    menuToggle.addEventListener('click', () => {
+      navList.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>

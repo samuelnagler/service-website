@@ -63,6 +63,17 @@ body {
   gap: 1.5rem;
 }
 
+/* mobile menu toggle button (hidden by default) */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
 .nav-list li {
   margin: 0;
 }
@@ -299,5 +310,38 @@ section h2 {
   }
   .card {
     width: 100%;
+  }
+
+  /* Mobile Navigation */
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    background-color: rgba(245, 245, 247, 0.97);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px var(--card-shadow);
+  }
+  .nav-list.active {
+    display: flex;
+  }
+  .nav-list li {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  .menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
   }
 }
