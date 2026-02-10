@@ -1,310 +1,303 @@
-/* Grundlegende Einstellungen */
-* {
-  box-sizing: border-box;
+/*
+ * Minimalistisches, an Apple angelehntes Design für das AI‑Services‑Portal
+ */
+
+/* Farbvariablen */
+:root {
+  --bg-color: #f5f5f7;
+  --primary-color: #0071e3;
+  --primary-dark: #005bb5;
+  --text-color: #1d1d1f;
+  --subtext-color: #515154;
+  --card-bg: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #111;
-  background-color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
-/* Navigationsleiste */
+/* Container for header and content alignment */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Header styling */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(245, 245, 247, 0.8);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   z-index: 1000;
 }
 
-.logo {
+.header .logo {
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  white-space: nowrap;
 }
 
-.header nav ul {
-  display: flex;
+.nav-list {
   list-style: none;
-  padding: 0;
   margin: 0;
-  gap: 20px;
-}
-
-.header nav ul li a {
-  text-decoration: none;
-  color: #333;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
-}
-
-.header nav ul li a:hover {
-  color: #0071e3;
-}
-
-/* Hero Abschnitt */
-.hero {
-  height: 90vh;
+  padding: 0;
   display: flex;
-  justify-content: center;
+  gap: 1.5rem;
+}
+
+.nav-list li {
+  margin: 0;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-list a:hover,
+.nav-list a:focus {
+  color: var(--primary-color);
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-image: url('hero.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
   align-items: center;
-  background: linear-gradient(180deg, #f5f5f7 0%, #e5e5ea 100%);
+  justify-content: center;
   text-align: center;
-  padding-top: 80px;
-  position: relative;
+  padding: 2rem;
+  color: var(--text-color);
 }
 
-.hero-content {
-  max-width: 800px;
-  padding: 0 20px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Hero‑Bild als Hintergrundillustration */
-.hero-image {
+.hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('images/hero.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.25;
-  filter: blur(2px);
+  background: linear-gradient(to bottom, rgba(245,245,247,0.6), rgba(245,245,247,0.9));
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
   z-index: 1;
+  max-width: 800px;
 }
 
 .hero h1 {
   font-size: 3rem;
-  margin-bottom: 0.5em;
-  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .hero p {
-  font-size: 1.1rem;
-  color: #555;
-  line-height: 1.6;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--subtext-color);
 }
 
 .btn {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 24px;
-  background-color: #0071e3;
-  color: white;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.75rem 1.75rem;
   border-radius: 8px;
+  font-size: 1rem;
   text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease;
 }
 
-.btn:hover {
-  background-color: #005bb5;
+.btn:hover,
+.btn:focus {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
-/* Dienstleistungsbereich */
-.services {
-  padding: 80px 20px;
+/* Sections */
+section {
+  padding: 6rem 1rem 4rem;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
-.services h2 {
-  font-size: 2.2rem;
-  margin-bottom: 40px;
-}
-
+/* Services */
 .service-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 2rem;
   justify-content: center;
 }
 
 .card {
-  flex: 1 1 250px;
-  background-color: #f7f7f7;
+  background-color: var(--card-bg);
   border-radius: 12px;
-  padding: 30px;
-  text-align: left;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px var(--card-shadow);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-color);
+  width: 300px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.card:hover,
+.card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px var(--card-shadow);
+}
+
+.service-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
 }
 
 .card h3 {
-  margin-top: 0;
-  margin-bottom: 0.5em;
   font-size: 1.4rem;
+  margin: 1rem;
 }
 
 .card p {
-  margin: 0;
-  color: #555;
-  line-height: 1.5;
+  font-size: 1rem;
+  margin: 0 1rem 1.5rem;
+  color: var(--subtext-color);
 }
 
-/* Zahlungsmethoden */
+/* Payments */
 .payments {
-  padding: 80px 20px;
-  background-color: #f5f5f7;
   text-align: center;
 }
 
-.payments h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-}
-
-.payments p {
-  margin-bottom: 40px;
-  color: #555;
-  line-height: 1.6;
-}
-
-.payment-icons {
+.payment-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
-  max-width: 900px;
-  margin: 0 auto;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.pay {
+.payment-item {
+  background-color: var(--card-bg);
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--card-shadow);
+  padding: 1rem 1.5rem;
+  min-width: 140px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  font-size: 1.1rem;
-  color: #333;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 12px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pay i {
-  font-size: 1.5rem;
-  color: #0071e3;
+.payment-item:hover,
+.payment-item:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px var(--card-shadow);
+  border-color: var(--primary-color);
 }
 
-.pay:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.payment-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
 }
 
-/* Kontaktformular */
+.payment-item span {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Contact */
 .contact {
-  padding: 80px 20px;
-  max-width: 800px;
-  margin: 0 auto;
   text-align: center;
-}
-
-.contact h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-}
-
-.contact p {
-  color: #555;
-  margin-bottom: 40px;
 }
 
 .contact form {
+  max-width: 600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
 }
 
-.contact input,
-.contact textarea {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
+.form-group input,
+.form-group textarea {
   width: 100%;
-}
-
-.contact textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.contact button {
-  align-self: flex-start;
-  padding: 12px 24px;
-  background-color: #0071e3;
-  color: #fff;
-  border: none;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dcdcdc;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  background-color: #fff;
+  color: var(--text-color);
+  transition: border-color 0.2s ease;
 }
 
-.contact button:hover {
-  background-color: #005bb5;
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
-/* Fußzeile */
-footer {
-  background-color: #f7f7f7;
-  padding: 40px 20px;
+.contact button.btn {
+  align-self: center;
+  padding: 0.75rem 2rem;
+}
+
+/* Footer */
+.footer {
   text-align: center;
+  padding: 2rem 1rem;
+  background-color: var(--bg-color);
+  color: var(--subtext-color);
+  border-top: 1px solid #e0e0e0;
   font-size: 0.9rem;
-  color: #777;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive Anpassungen */
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .hero h1 {
-    font-size: 2.4rem;
+    font-size: 2.5rem;
   }
   .hero p {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   .service-cards {
-    flex-direction: column;
+    gap: 1.5rem;
   }
-  .payment-icons {
-    gap: 20px;
-  }
-  .pay {
+  .card {
     width: 100%;
-    justify-content: center;
   }
-}
-
-/* ================================== */
-/* Zusatzstile für Apple‑Stil Servicekarten */
-/* Inhalt zentrieren und Icons ansprechend gestalten */
-.service-cards .card {
-  text-align: center;
-}
-
-.service-cards .card img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border-radius: 20px;
 }
