@@ -293,3 +293,18 @@ footer {
     justify-content: center;
   }
 }
+
+/* ================================== */
+/* Zusatzstile für Apple‑Stil Servicekarten */
+/* Inhalt zentrieren und Icons ansprechend gestalten */
+.service-cards .card {
+  text-align: center;
+}
+
+.service-cards .card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
