@@ -141,6 +141,13 @@
     menuToggle.addEventListener('click', () => {
       navList.classList.toggle('active');
     });
+
+    // Wenn ein Menüpunkt ausgewählt wird, schließe das Menü wieder.
+    document.querySelectorAll('.nav-list a').forEach(link => {
+      link.addEventListener('click', () => {
+        navList.classList.remove('active');
+      });
+    });
   </script>
 </body>
 </html>

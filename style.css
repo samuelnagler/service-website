@@ -381,6 +381,8 @@ section h2 {
     /* Standardmäßig nach oben ausblenden */
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out;
+    /* Obere Einrückung wird weiter unten überschrieben, um Platz für das Logo
+       zu schaffen. */
     padding: 2rem;
   }
 
@@ -389,6 +391,30 @@ section h2 {
   .container {
     margin: 0;
     max-width: none;
+  }
+
+  /* Positioniere die Kopfzeilen-Container relativ, damit das Logo innerhalb
+     davon absolut positioniert werden kann. */
+  .header .container {
+    position: relative;
+    justify-content: center;
+  }
+  /* Zentriere das Logo oben im Dropdown-Menü: es wird absolut positioniert
+     und horizontal zentriert. Ein höherer z-Index stellt sicher, dass es über
+     der Navigationsliste angezeigt wird. */
+  .header .logo {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100;
+    font-size: 1.6rem;
+  }
+  /* Da das Logo jetzt in der Mitte des Bildschirms positioniert ist, benötigt
+     die Navigationsliste zusätzlichen oberen Abstand, damit die Links nicht
+     mit dem Logo kollidieren. */
+  .nav-list {
+    padding-top: 6rem;
   }
   .nav-list.active {
     transform: translateY(0);
