@@ -47,9 +47,11 @@ body {
 
 /* Header styling */
 .header {
-  position: fixed;
+  /* Der Header soll wie bei samuelnagler.com funktionieren: er ist nicht fixiert,
+     sondern scrollt zusammen mit dem Inhalt. Daher entfernen wir die fixed-Positionierung. */
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
   width: 100%;
   /* Die Kopfzeile soll wie bei samuelnagler.com aussehen: undurchsichtig mit
      feinem Schatten und einer dezenten Trennlinie. */
@@ -57,14 +59,19 @@ body {
   backdrop-filter: none;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #e0e0e0;
-  z-index: 1000;
+  /* z-index wird nicht benötigt, da der Header nicht mehr über dem Inhalt schwebt. */
+  /* z-index: 1000; */
 }
 
 .header .logo {
   font-weight: 600;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: var(--primary-color);
   white-space: nowrap;
+  /* Ästhetik-Anpassung: Eine Handschrift ähnliche Schriftart für das Logo.
+     Falls diese Schriften nicht verfügbar sind, fällt sie auf cursive zurück. */
+  font-family: 'Apple Chancery', 'Brush Script MT', cursive;
+  font-style: italic;
 }
 
 .nav-list {
@@ -95,6 +102,8 @@ body {
   color: var(--text-color);
   font-weight: 500;
   transition: color 0.2s ease-in-out;
+  /* Leichte Laufweite für ein eleganteres Schriftbild wie bei samuelnagler.com */
+  letter-spacing: 0.05em;
 }
 
 .nav-list a:hover,
