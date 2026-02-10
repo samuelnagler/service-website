@@ -52,6 +52,10 @@ body {
   /* position: fixed;
   top: 0;
   left: 0; */
+  /* Erzwinge eine relative Positionierung wie auf samuelnagler.com, damit die
+     Kopfzeile nicht fixiert bleibt, selbst wenn ältere Cache‑Versionen eine
+     feste Positionierung enthalten. */
+  position: relative;
   width: 100%;
   /* Die Kopfzeile soll wie bei samuelnagler.com aussehen: undurchsichtig mit
      feinem Schatten und einer dezenten Trennlinie. */
