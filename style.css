@@ -17,6 +17,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Einheitliche Boxmodell-Berechnung für alle Elemente, damit Breitenangaben
+   inklusive Padding berücksichtigt werden und unerwartete horizontale
+   Verschiebungen im mobilen Layout vermieden werden. */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -44,9 +51,12 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(245, 245, 247, 0.8);
-  backdrop-filter: blur(10px);
+  /* Die Kopfzeile soll wie bei samuelnagler.com aussehen: undurchsichtig mit
+     feinem Schatten und einer dezenten Trennlinie. */
+  background-color: var(--card-bg);
+  backdrop-filter: none;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e0e0e0;
   z-index: 1000;
 }
 
@@ -372,6 +382,13 @@ section h2 {
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out;
     padding: 2rem;
+  }
+
+  /* Container soll auf kleinen Bildschirmen die volle Breite belegen, damit
+     links und rechts keine unterschiedlichen Randabstände entstehen. */
+  .container {
+    margin: 0;
+    max-width: none;
   }
   .nav-list.active {
     transform: translateY(0);
