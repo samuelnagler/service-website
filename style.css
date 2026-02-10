@@ -24,6 +24,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
+  /* Verhindert horizontales Scrollen auf Mobilgeräten und gleicht unterschiedlich große Ränder aus */
+  overflow-x: hidden;
 }
 
 /* Container for header and content alignment */
@@ -421,5 +423,32 @@ section h2 {
   /* Leichte Reduzierung der vertikalen Abstände bei allen Sektionen */
   section {
     padding: 5rem 1rem 3rem;
+    /* Auf kleinen Bildschirmen soll die Breite der Sektionen nicht begrenzt sein.
+       Dadurch verschwinden ungleiche Ränder rechts bzw. links beim Scrollen. */
+    max-width: none;
+  }
+
+  /* Karten vereinfachen: keine Schatten oder abgerundete Kanten, damit sie sich
+     nahtlos wie in samuelnagler.com in das Seitenlayout einfügen. */
+  .card {
+    box-shadow: none;
+    border-radius: 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+  }
+  .card:hover,
+  .card:focus {
+    transform: none;
+    box-shadow: none;
+  }
+  .card h3 {
+    margin-top: 1rem;
+  }
+
+  /* Vereinfachte Darstellung der Zahlungsarten – ohne Rand und Schatten. */
+  .payment-item {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
   }
 }
