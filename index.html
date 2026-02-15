@@ -1,154 +1,222 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI&nbsp;Services – Elegantes Firmenportal</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Feste Navigationsleiste -->
-  <!-- Hauptkopfzeile orientiert sich am nicht fixierten Header von samuelnagler.com. Wir setzen die Position explizit auf „static“, um ein mögliches Festhalten durch übergeordnete Stile zu verhindern. -->
-  <header class="header" style="position: static;">
-    <div class="container">
-      <div class="logo">AI&nbsp;Services</div>
-      <!-- mobile menu toggle -->
-      <button class="menu-toggle" aria-label="Menü öffnen">&#9776;</button>
-      <nav>
-        <ul class="nav-list">
-          <li><a href="#home">Start</a></li>
-          <li><a href="#services">Dienstleistungen</a></li>
-          <li><a href="#payments">Zahlungsmethoden</a></li>
-          <li><a href="#contact">Kontakt</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero‑Bereich -->
-  <section id="home" class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Modern. Intuitiv. Effizient.</h1>
-      <p>Eine elegante Plattform, die Ihre Geschäftsprozesse automatisiert und Ihren Kunden ein herausragendes Erlebnis bietet.</p>
-      <a href="#services" class="btn">Mehr erfahren</a>
-    </div>
-  </section>
-
-  <!-- Unsere Dienstleistungen -->
-  <section id="services" class="services">
-    <h2>Unsere Dienstleistungen</h2>
-    <div class="service-cards">
-      <a href="#contact" class="card" aria-label="AI Kundenservice">
-        <img src="ai_service1.jpg" alt="AI‑Kundenservice" class="service-image">
-        <h3>AI‑Kundenservice</h3>
-        <p>Automatisiertes Beantworten von Anfragen via E‑Mail, Chat und sozialen Kanälen.</p>
-      </a>
-      <a href="#contact" class="card" aria-label="Terminplanung">
-        <img src="ai_service2.jpg" alt="Terminplanung" class="service-image">
-        <h3>Terminplanung</h3>
-        <p>Intelligente Kalenderintegration, Buchungssysteme und Terminverwaltung.</p>
-      </a>
-      <a href="#contact" class="card" aria-label="Design &amp; Marketing">
-        <img src="ai_service3.jpg" alt="Design &amp; Marketing" class="service-image">
-        <h3>Design&nbsp;&amp;&nbsp;Marketing</h3>
-        <p>Kreative Motivgestaltung, automatisierte Kundengewinnung und Kampagnenoptimierung.</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- Zahlungsmethoden -->
-  <section id="payments" class="payments">
-    <h2>Viele Zahlungsmöglichkeiten</h2>
-    <p>Ihre Kunden können aus den beliebtesten Zahlarten wählen. Die Implementierung mehrerer Zahlungsarten schafft Vertrauen und Komfort.</p>
-    <div class="payment-grid">
-      <a href="#contact" class="payment-item" aria-label="Kreditkarte">
-        <!-- Kreditkarten‑Icon -->
-        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" class="payment-icon" aria-hidden="true" focusable="false">
-          <rect x="2" y="6" width="60" height="36" rx="4" ry="4" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <rect x="2" y="16" width="60" height="8" fill="#0071e3"/>
-          <rect x="8" y="30" width="14" height="6" fill="#0071e3"/>
-        </svg>
-        <span>Kreditkarte</span>
-      </a>
-      <a href="#contact" class="payment-item" aria-label="PayPal">
-        <!-- PayPal‑Icon: zwei überlappende P-Buchstaben -->
-        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" class="payment-icon" aria-hidden="true" focusable="false">
-          <path d="M20 10 h12 a8 8 0 0 1 0 16 h-12 z" fill="#0071e3"/>
-          <path d="M28 18 h12 a8 8 0 0 1 0 16 h-12 z" fill="#0a74da"/>
-        </svg>
-        <span>PayPal</span>
-      </a>
-      <a href="#contact" class="payment-item" aria-label="Mobile Pay">
-        <!-- Smartphone mit Funkwellen -->
-        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" class="payment-icon" aria-hidden="true" focusable="false">
-          <rect x="16" y="6" width="20" height="36" rx="3" ry="3" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <circle cx="26" cy="14" r="3" fill="#0071e3"/>
-          <path d="M44 18 c4 0 8 3 8 7 s-4 7-8 7" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"/>
-          <path d="M48 22 c3 0 6 2 6 6 s-3 6-6 6" fill="none" stroke="#0a74da" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-        <span>Apple&nbsp;Pay</span>
-      </a>
-      <a href="#contact" class="payment-item" aria-label="Google Pay">
-        <!-- Smartphone mit G -->
-        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" class="payment-icon" aria-hidden="true" focusable="false">
-          <rect x="16" y="6" width="20" height="36" rx="3" ry="3" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <text x="25" y="30" font-family="Arial, sans-serif" font-size="20" fill="#0a74da" font-weight="bold">G</text>
-        </svg>
-        <span>Google&nbsp;Pay</span>
-      </a>
-      <a href="#contact" class="payment-item" aria-label="SEPA / Lastschrift">
-        <!-- Bankgebäude‑Icon -->
-        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" class="payment-icon" aria-hidden="true" focusable="false">
-          <polygon points="32,8 10,20 54,20" fill="#0071e3"/>
-          <rect x="14" y="20" width="8" height="16" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <rect x="28" y="20" width="8" height="16" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <rect x="42" y="20" width="8" height="16" fill="#f0f4fc" stroke="#0071e3" stroke-width="2"/>
-          <rect x="10" y="36" width="44" height="4" fill="#0071e3"/>
-        </svg>
-        <span>SEPA &amp; Lastschrift</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Kontaktformular -->
-  <section id="contact" class="contact">
-    <h2>Kontaktieren Sie uns</h2>
-    <p>Haben Sie Fragen oder möchten Sie mehr wissen? Wir freuen uns auf Ihre Nachricht.</p>
-    <form onsubmit="event.preventDefault(); alert('Vielen Dank! Ihre Nachricht wurde gesendet.');">
-      <div class="form-group">
-        <input type="text" placeholder="Name" required />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Services – Elegantes Firmenportal</title>
+    <!-- Base styles -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-bh5ITStFvWZ3Gj4gaHlpPbwlmRe+W356dP5zlMRAO0ct/UMhw9n7oV9mTh3CpA/R43yjpGlu3VA7NfpA15s4iw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="#start" class="logo">AI&nbsp;Services</a>
+        <!-- Mobile menu toggle -->
+        <button id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav id="nav-menu" class="nav-menu">
+          <a href="#start">Start</a>
+          <a href="#services">Dienstleistungen</a>
+          <a href="#payment">Zahlungsmethoden</a>
+          <a href="#contact">Kontakt</a>
+        </nav>
       </div>
-      <div class="form-group">
-        <input type="email" placeholder="E‑Mail" required />
+    </header>
+
+    <!-- Hero section -->
+    <section id="start" class="hero">
+      <div class="container hero-container">
+        <div class="hero-text">
+          <h1>Modern. Intuitiv. Effizient.</h1>
+          <p>
+            Eine elegante Plattform, die Ihre Geschäftsprozesse automatisiert und
+            Ihren Kunden ein herausragendes Erlebnis bietet.
+          </p>
+          <a href="#services" class="btn primary">Mehr erfahren</a>
+        </div>
+        <div class="hero-image">
+          <img src="images/hero.png" alt="AI Services Illustration" />
+        </div>
       </div>
-      <div class="form-group">
-        <textarea placeholder="Nachricht" required rows="5"></textarea>
+    </section>
+
+    <!-- Services section -->
+    <section id="services" class="section services">
+      <div class="container">
+        <h2>Unsere Dienstleistungen</h2>
+        <div class="card-grid">
+          <div class="service-card">
+            <i class="fas fa-headset service-icon"></i>
+            <h3>AI‑Kundenservice</h3>
+            <p>
+              Automatisiertes Beantworten von Anfragen via E‑Mail, Chat und
+              sozialen Kanälen.
+            </p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-calendar-alt service-icon"></i>
+            <h3>Terminplanung</h3>
+            <p>
+              Intelligente Kalenderintegration, Buchungssysteme und effiziente
+              Terminverwaltung.
+            </p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-bullhorn service-icon"></i>
+            <h3>Design&nbsp;&amp;&nbsp;Marketing</h3>
+            <p>
+              Kreative Motivgestaltung, automatisierte Kundengewinnung und
+              Kampagnenoptimierung.
+            </p>
+          </div>
+        </div>
       </div>
-      <button type="submit" class="btn">Absenden</button>
-    </form>
-  </section>
+    </section>
 
-  <!-- Fußzeile -->
-  <footer class="footer">
-    <p>© 2026 AI Services. Alle Rechte vorbehalten.</p>
-  </footer>
+    <!-- Payment methods section -->
+    <section id="payment" class="section payment">
+      <div class="container">
+        <h2>Viele Zahlungsmöglichkeiten</h2>
+        <p class="payment-intro">
+          Studien zeigen, dass Kunden den Kauf abbrechen, wenn ihre bevorzugte
+          Zahlungsart fehlt. Ein vielfältiges Angebot erhöht die
+          Conversion‑Rate und sorgt für ein reibungsloses Erlebnis【346564017580409†L140-L157】.
+        </p>
+        <div class="payment-grid">
+          <div class="payment-item">
+            <i class="fas fa-credit-card payment-icon"></i>
+            <h3>Kreditkarte</h3>
+            <p>Akzeptieren Sie Visa, Mastercard und Amex.</p>
+          </div>
+          <div class="payment-item">
+            <i class="fab fa-paypal payment-icon"></i>
+            <h3>PayPal</h3>
+            <p>Sicheres Bezahlen mit Ihrem PayPal‑Konto.</p>
+          </div>
+          <div class="payment-item">
+            <i class="fab fa-apple-pay payment-icon"></i>
+            <h3>Apple Pay</h3>
+            <p>Schneller Checkout für Apple‑Geräte.</p>
+          </div>
+          <div class="payment-item">
+            <i class="fab fa-google-pay payment-icon"></i>
+            <h3>Google Pay</h3>
+            <p>Bequemes Bezahlen für Android‑Nutzer.</p>
+          </div>
+          <div class="payment-item">
+            <i class="fas fa-university payment-icon"></i>
+            <h3>SEPA &amp; Lastschrift</h3>
+            <p>Direkter Einzug von Ihrem Bankkonto.</p>
+          </div>
+        </div>
+        <!-- Pricing and purchase options -->
+        <div class="pricing">
+          <h3>Unsere Pakete</h3>
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <h4>Basic Paket</h4>
+              <p class="price">29,99 € / Monat</p>
+              <ul>
+                <li>AI‑Kundenservice</li>
+                <li>Terminplanung</li>
+              </ul>
+              <button class="btn secondary" data-plan="Basic">Jetzt kaufen</button>
+            </div>
+            <div class="pricing-card">
+              <h4>Premium Paket</h4>
+              <p class="price">49,99 € / Monat</p>
+              <ul>
+                <li>AI‑Kundenservice</li>
+                <li>Terminplanung</li>
+                <li>Design &amp; Marketing</li>
+              </ul>
+              <button class="btn secondary" data-plan="Premium">Jetzt kaufen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- Einfaches Skript für das mobile Menü -->
-  <script>
-    // Menü ein‑ und ausblenden auf kleinen Bildschirmen
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navList = document.querySelector('.nav-list');
-    menuToggle.addEventListener('click', () => {
-      navList.classList.toggle('active');
-    });
+    <!-- Contact section -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2>Kontaktieren Sie uns</h2>
+        <p>
+          Haben Sie Fragen oder möchten Sie mehr wissen? Wir freuen uns auf Ihre
+          Nachricht.
+        </p>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Ihr Name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">E‑Mail</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Ihre E‑Mail‑Adresse"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="message">Nachricht</label>
+            <textarea
+              id="message"
+              placeholder="Ihre Nachricht"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn primary">Absenden</button>
+        </form>
+      </div>
+    </section>
 
-    // Wenn ein Menüpunkt ausgewählt wird, schließe das Menü wieder.
-    document.querySelectorAll('.nav-list a').forEach(link => {
-      link.addEventListener('click', () => {
-        navList.classList.remove('active');
-      });
-    });
-  </script>
-</body>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2026 AI Services. Alle Rechte vorbehalten.</p>
+      </div>
+    </footer>
+
+    <!-- Modal for payment selection -->
+    <div id="payment-modal" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <span class="close" aria-label="Schließen">&times;</span>
+        <h3>Zahlungsart wählen</h3>
+        <p>
+          Wählen Sie Ihre bevorzugte Zahlungsart. Diese Demo führt keine echte
+          Zahlung aus.
+        </p>
+        <div class="modal-payment-options">
+          <button class="btn payment-btn" data-method="credit">Kreditkarte</button>
+          <button class="btn payment-btn" data-method="paypal">PayPal</button>
+          <button class="btn payment-btn" data-method="applepay">Apple Pay</button>
+          <button class="btn payment-btn" data-method="googlepay">Google Pay</button>
+          <button class="btn payment-btn" data-method="sepa">SEPA</button>
+        </div>
+        <div id="payment-instructions" class="payment-instructions"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
 </html>
