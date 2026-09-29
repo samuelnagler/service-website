@@ -1,4 +1,5 @@
-const ROOT=window.SITE_BASE||'';\nconst RAW='https://raw.githubusercontent.com/samuelnagler/test-1/main';
+const ROOT=window.SITE_BASE||'';
+const RAW='https://raw.githubusercontent.com/samuelnagler/test-1/main';
 const asset=p=>ROOT+p;
 const webPath=p=>(p||'').replace(/^\/assets\//,'/assets-web/').replace(/\.(?:jpe?g|png|webp)$/i,'.webp');
 const webAsset=p=>RAW+webPath(p);
