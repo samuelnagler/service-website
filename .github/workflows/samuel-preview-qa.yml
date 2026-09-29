@@ -1,0 +1,236 @@
+name: Samuel preview QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'samuel-preview/**'
+      - '.github/workflows/samuel-preview-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for isolated preview
+        run: |
+          for i in {1..36}; do
+            body="$(curl -fsSL --max-time 15 'https://samuelnagler.github.io/service-website/samuel-preview/' || true)"
+            if printf '%s' "$body" | grep -q 'noindex,nofollow'; then
+              echo 'Preview is current.'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'Preview not current/reachable.' >&2
+          exit 1
+      - name: Install QA browser
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --silent playwright@1.55.0
+          npx playwright install --with-deps chromium
+          python3 -m pip install --quiet pillow
+      - name: Browser capture and interaction checks
+        env:
+          REFERENCE_HTTPS: https://samuelnagler.com
+          REFERENCE_HTTP: http://samuelnagler.com
+          PREVIEW: https://samuelnagler.github.io/service-website/samuel-preview
+        run: |
+          cat > qa.mjs <<'JS'
+          import { chromium } from 'playwright';
+          import fs from 'fs';
+          const httpsRef=process.env.REFERENCE_HTTPS, httpRef=process.env.REFERENCE_HTTP, preview=process.env.PREVIEW;
+          const cases=[['home','/'],['works','/collections/prints'],['product-animals','/products/animals'],['contact','/pages/contact'],['home-de','/de']];
+          const views=[['desktop',{width:1440,height:900},false],['mobile',{width:390,height:844},true]];
+          fs.mkdirSync('qa-out',{recursive:true});
+          const browser=await chromium.launch({headless:true});
+          const report={generatedAt:new Date().toISOString(),referenceBase:null,cases:{},issues:[]};
+
+          async function chooseReference(){
+            for(const base of [httpsRef,httpRef]){
+              const ctx=await browser.newContext({viewport:{width:390,height:844},ignoreHTTPSErrors:true});
+              const p=await ctx.newPage();
+              try{
+                await p.goto(base+'/',{waitUntil:'domcontentloaded',timeout:30000});
+                await p.waitForTimeout(800);
+                if((await p.locator('body').innerText()).trim().length>50){
+                  const final=p.url();
+                  await ctx.close();
+                  return {base,final};
+                }
+              }catch(e){}
+              await ctx.close();
+            }
+            throw new Error('Reference site is not browser-reachable over HTTPS or HTTP');
+          }
+
+          async function settle(page,url){
+            await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+            await page.waitForTimeout(1400);
+            await page.evaluate(async()=>{
+              const step=Math.max(350,Math.floor(innerHeight*.7));
+              for(let y=0;y<document.body.scrollHeight;y+=step){
+                scrollTo(0,y); await new Promise(r=>setTimeout(r,70));
+              }
+              scrollTo(0,0);
+            });
+            await page.waitForTimeout(650);
+          }
+
+          async function facts(page){
+            return await page.evaluate(()=>({
+              title:document.title,
+              description:document.querySelector('meta[name="description"]')?.content||'',
+              robots:document.querySelector('meta[name="robots"]')?.content||'',
+              canonical:document.querySelector('link[rel="canonical"]')?.href||'',
+              h1:[...document.querySelectorAll('h1')].map(x=>x.innerText.trim()).filter(Boolean),
+              links:[...document.querySelectorAll('a[href]')].map(a=>({text:(a.innerText||a.getAttribute('aria-label')||'').trim(),href:a.href})),
+              images:[...document.images].map(i=>({
+                alt:i.alt,
+                srcAttr:i.getAttribute('src')||'',
+                dataSrc:i.dataset.src||'',
+                src:i.currentSrc||i.src||'',
+                ok:(!i.getAttribute('src')&&!!i.dataset.src)||(i.complete&&i.naturalWidth>0),
+                w:i.naturalWidth,h:i.naturalHeight
+              })),
+              buttons:[...document.querySelectorAll('button')].map(b=>({text:(b.innerText||b.getAttribute('aria-label')||'').trim(),disabled:b.disabled})),
+              bodyHeight:document.documentElement.scrollHeight,
+              bodyWidth:document.documentElement.scrollWidth
+            }));
+          }
+
+          const ref=await chooseReference();
+          report.referenceBase=ref;
+
+          for(const [name,path] of cases){
+            report.cases[name]={};
+            for(const [view,viewport,mobile] of views){
+              report.cases[name][view]={};
+              for(const [side,base] of [['reference',ref.base],['preview',preview]]){
+                const context=await browser.newContext({viewport,isMobile:mobile,deviceScaleFactor:1,locale:'en-US',ignoreHTTPSErrors:true});
+                const page=await context.newPage();
+                const errors=[];
+                page.on('pageerror',e=>errors.push('pageerror: '+e.message));
+                page.on('requestfailed',r=>errors.push('requestfailed: '+r.url()+' '+(r.failure()?.errorText||'')));
+                try{
+                  await settle(page,base+path);
+                  const f=await facts(page); f.errors=errors.slice(0,30); f.url=page.url();
+                  await page.screenshot({path:`qa-out/${name}-${view}-${side}.png`,fullPage:true});
+                  report.cases[name][view][side]=f;
+
+                  if(side==='preview'){
+                    if(!page.url().startsWith(preview)) report.issues.push(`${name}/${view}: escaped preview to ${page.url()}`);
+                    if(!/noindex/i.test(f.robots)||!/nofollow/i.test(f.robots)) report.issues.push(`${name}/${view}: robots meta is "${f.robots}"`);
+                    const broken=f.images.filter(i=>!i.ok);
+                    if(broken.length) report.issues.push(`${name}/${view}: ${broken.length} genuinely broken loaded images`);
+                    if(f.bodyWidth>viewport.width+2) report.issues.push(`${name}/${view}: horizontal overflow ${f.bodyWidth}px`);
+                    if(!f.h1.length && !['home','home-de'].includes(name)) report.issues.push(`${name}/${view}: missing H1`);
+                    const escaped=f.links.filter(l=>{
+                      try{
+                        const u=new URL(l.href);
+                        return u.hostname==='samuelnagler.github.io'&&!u.pathname.startsWith('/service-website/samuel-preview');
+                      }catch(e){return false}
+                    });
+                    if(escaped.length) report.issues.push(`${name}/${view}: ${escaped.length} internal GitHub links escape preview`);
+                  }
+
+                  if(view==='mobile'&&name==='home'){
+                    const btn=page.locator('button[aria-label*="menu" i],button[aria-label*="menü" i]').first();
+                    if(await btn.count()){
+                      await btn.click(); await page.waitForTimeout(250);
+                      const expanded=await btn.getAttribute('aria-expanded');
+                      report.cases[name][view][side].menuExpanded=expanded;
+                      await page.screenshot({path:`qa-out/${name}-${view}-${side}-menu-open.png`,fullPage:false});
+                      if(side==='preview'&&expanded!=='true') report.issues.push('home/mobile: menu did not expand');
+                    }else if(side==='preview') report.issues.push('home/mobile: menu button missing');
+                  }
+
+                  if(name==='product-animals'){
+                    const next=page.locator('.product-next').first();
+                    if(await next.count()){
+                      const before=await page.locator('.product-gallery-counter span').first().textContent().catch(()=>null);
+                      await next.click(); await page.waitForTimeout(250);
+                      const after=await page.locator('.product-gallery-counter span').first().textContent().catch(()=>null);
+                      report.cases[name][view][side].gallery={before,after};
+                      if(side==='preview'&&before===after) report.issues.push(`${name}/${view}: gallery next did not change slide`);
+                    }
+                  }
+                }catch(e){
+                  report.cases[name][view][side]={url:base+path,error:String(e),errors};
+                  if(side==='preview') report.issues.push(`${name}/${view}: preview load error ${e}`);
+                }
+                await context.close();
+              }
+            }
+          }
+          await browser.close();
+          fs.writeFileSync('qa-out/dom-report.json',JSON.stringify(report,null,2));
+          if(report.issues.length){
+            console.error(report.issues.join('\n'));
+            process.exitCode=2;
+          }
+          JS
+          node qa.mjs || browser_status=$?
+          echo "${browser_status:-0}" > qa-out/browser-status.txt
+      - name: Pixel diff
+        if: always()
+        run: |
+          cat > diff.py <<'PY'
+          from PIL import Image, ImageChops
+          from pathlib import Path
+          import json
+          root=Path('qa-out'); summary={}; failures=[]
+          for rp in sorted(root.glob('*-reference.png')):
+              stem=rp.name[:-len('-reference.png')]
+              pp=root/(stem+'-preview.png')
+              if not pp.exists():
+                  continue
+              a=Image.open(rp).convert('RGB'); b=Image.open(pp).convert('RGB')
+              w=max(a.width,b.width); h=max(a.height,b.height)
+              aa=Image.new('RGB',(w,h),'white'); bb=Image.new('RGB',(w,h),'white')
+              aa.paste(a,(0,0)); bb.paste(b,(0,0))
+              d=ImageChops.difference(aa,bb)
+              mask=d.convert('L').point(lambda p:255 if p>24 else 0)
+              changed=sum(1 for p in mask.getdata() if p)
+              ratio=changed/(w*h)
+              summary[stem]={'width':w,'height':h,'changedPixels':changed,'diffPixelRatio':ratio,'pass005':ratio<=0.005}
+              if ratio>0.005: failures.append(f'{stem}: {ratio:.6f}')
+              scale=min(1,720/w); nw=max(1,round(w*scale)); nh=max(1,round(h*scale))
+              ar=aa.resize((nw,nh)); br=bb.resize((nw,nh))
+              sheet=Image.new('RGB',(nw*2,nh),'white'); sheet.paste(ar,(0,0)); sheet.paste(br,(nw,0))
+              sheet.save(root/(stem+'-side-by-side.jpg'),quality=82,optimize=True)
+          (root/'visual-summary.json').write_text(json.dumps(summary,indent=2))
+          (root/'visual-failures.txt').write_text('\n'.join(failures) if failures else 'PASS\n')
+          print(json.dumps(summary,indent=2))
+          PY
+          python3 diff.py
+      - name: Final assertions
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,sys,pathlib
+          p=pathlib.Path('qa-out/dom-report.json')
+          if not p.exists():
+              print('DOM report missing'); sys.exit(1)
+          r=json.load(open(p))
+          issues=r.get('issues',[])
+          visual=json.load(open('qa-out/visual-summary.json')) if pathlib.Path('qa-out/visual-summary.json').exists() else {}
+          if len(visual)<10:
+              issues.append(f'only {len(visual)}/10 screenshot pairs diffed')
+          over=[(k,v['diffPixelRatio']) for k,v in visual.items() if v.get('diffPixelRatio',1)>0.005]
+          if over:
+              issues.append('visual threshold >0.005: '+', '.join(f'{k}={v:.4f}' for k,v in over))
+          print('\n'.join(issues) if issues else 'PASS')
+          pathlib.Path('qa-out/final.txt').write_text('\n'.join(issues) if issues else 'PASS\n')
+          if issues: sys.exit(1)
+          PY
+      - name: Upload QA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: samuel-preview-qa-${{ github.sha }}
+          path: qa-out/
+          retention-days: 7
